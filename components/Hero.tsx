@@ -69,23 +69,23 @@ const Hero = ({ data }: Props) => {
     </div>
 
     // <div className="min-h-[calc(100vh-12vh-10vh)] flex flex-grow items-center justify-center w-full flex-col py-12">
-    // {/* text  */}
-    // <div className="w-4/5 mx-auto grid items-center grid-cols-1 lg:grid-cols-2 gap-12 py-12">
-    //   {data.map((item) => (
-    //     <div key={item.id}>
-    //       <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl text-black font-bold uppercase">
-    //         {item.title}
-    //       </h1>
-    //       <p className="text-lg text-gray-700 mt-4">{item.desc}</p>
-    //       <img
-    //         className="mt-6 rounded-lg shadow-lg w-full max-[500px]:"
-    //         src={item.src}
-    //         alt={item.title}
-    //       />
-    //     </div>
-    //   ))}
-    //   <div></div>
-    // </div>
+    //   {/* text  */}
+    //   <div className="w-4/5 mx-auto grid items-center grid-cols-1 lg:grid-cols-2 gap-12 py-12">
+    //     {data.map((item) => (
+    //       <div key={item.id}>
+    //         <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl text-black font-bold uppercase">
+    //           {item.title}
+    //         </h1>
+    //         <p className="text-lg text-gray-700 mt-4">{item.desc}</p>
+    //         <img
+    //           className="mt-6 rounded-lg shadow-lg w-full max-[500px]:"
+    //           src={item.src}
+    //           alt={item.title}
+    //         />
+    //       </div>
+    //     ))}
+    //     <div></div>
+    //   </div>
     // </div>
   );
 };
