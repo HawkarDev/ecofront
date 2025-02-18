@@ -19,3 +19,13 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+
+@layer components {
+  .footer_title {
+    @apply text-xl  text-white mb-4
+  }
+  .footer_link{
+    @apply  text-white text-[15px] opacity-90 mb-4 w-fit cursor-pointer hover:text-indigo-900
+  }
+}

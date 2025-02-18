@@ -1,7 +1,14 @@
 import React from "react";
 
 const textPage = () => {
-  return <div>textPage</div>;
+  return (
+    <div>
+      {" "}
+      <p className="text-2xl capitalize w-auto text-center pt-40">
+        Here should be Texts
+      </p>
+    </div>
+  );
 };
 
 export default textPage;
