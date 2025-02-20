@@ -17,7 +17,7 @@ const NavBar = () => {
           <Link href="/voices">Voices</Link>
           <Link href="/texts">Texts</Link>
           <Link href="/uploadfiles">Upload Files</Link>
-          <Link href="/fileListComp">File List</Link>
+          <Link href="/fileList">File List</Link>
         </div>
         <div className="text-cyan-50">Login</div>
       </div>
