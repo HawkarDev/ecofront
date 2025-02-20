@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import React from "react";
+import SocialMediaIcons from "./SocialIcons";
 
 const Footer = () => {
   return (
@@ -18,7 +19,9 @@ const Footer = () => {
             Building No. 10, Alley 60 Gullabax 335 Shorsh St. , Opposite Shoresh
             Hospital Sulaimani Kurdistan Region, Iraq
           </p>
-          <p className="text-base mt-6 text-white opacity-80">social media</p>
+          <div className="mt-4 p-2">
+            <SocialMediaIcons />
+          </div>
         </div>
         {/* second Part */}
         <div className="lg:mx-auto">
@@ -60,13 +63,13 @@ const Footer = () => {
           <h1 className="footer_title">Contacts </h1>
           <div className="w-28 h-1.5 bg-gradient-to-r from-indigo-400 to-indigo-900 rounded-full mb-2"></div>
           <div>
-            <p className="text-white text-[15px] opacity-90 mb-4 w-fit cursor-pointer">
+            <p className="text-white text-[15px] opacity-90 mb-4 w-fit ">
               Contact us:
             </p>
-            <p className="text-white text-[15px] opacity-90 mb-4 w-fit cursor-pointer">
+            <p className="text-white text-[15px] opacity-90 mb-4 w-fit  hover:text-orange-300">
               📞 +964 (0)748 010 4674{" "}
             </p>
-            <p className="text-white text-[15px] opacity-90 mb-4 w-fit cursor-pointer">
+            <p className="text-white text-[15px] opacity-90 mb-4 w-fit hover:text-orange-300">
               📧 economic.team@kissr.edu.iq
             </p>
           </div>

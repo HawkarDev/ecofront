@@ -12,12 +12,24 @@ const NavBar = () => {
           <Image src="/images/logo.png" alt="log" width={100} height={100} />
         </Link>
         <div className="flex flex-row  items-center gap-6 justify-start w-auto md:w-4/5 mx-auto h-auto text-cyan-50">
-          <Link href="/home">Home</Link>
-          <Link href="/videos">Videos</Link>
-          <Link href="/voices">Voices</Link>
-          <Link href="/texts">Texts</Link>
-          <Link href="/uploadfiles">Upload Files</Link>
-          <Link href="/fileList">File List</Link>
+          <Link href="/home" className=" hover:text-orange-300">
+            Home
+          </Link>
+          <Link href="/videos" className=" hover:text-orange-300">
+            Videos
+          </Link>
+          <Link href="/voices" className=" hover:text-orange-300">
+            Voices
+          </Link>
+          <Link href="/texts" className=" hover:text-orange-300">
+            Texts
+          </Link>
+          <Link href="/uploadfiles" className=" hover:text-orange-300">
+            Upload Files
+          </Link>
+          <Link href="/fileList" className=" hover:text-orange-300">
+            File List
+          </Link>
         </div>
         <div className="text-cyan-50">Login</div>
       </div>
