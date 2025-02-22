@@ -1,8 +1,9 @@
 "use client";
-
+import { FiPhone } from "react-icons/fi";
 import Link from "next/link";
 import React from "react";
 import SocialMediaIcons from "./SocialIcons";
+import { FiMail } from "react-icons/fi";
 
 const Footer = () => {
   return (
@@ -66,12 +67,28 @@ const Footer = () => {
             <p className="text-white text-[15px] opacity-90 mb-4 w-fit ">
               Contact us:
             </p>
-            <p className="text-white text-[15px] opacity-90 mb-4 w-fit  hover:text-orange-300">
-              📞 +964 (0)748 010 4674{" "}
-            </p>
-            <p className="text-white text-[15px] opacity-90 mb-4 w-fit hover:text-orange-300">
-              📧 economic.team@kissr.edu.iq
-            </p>
+            <div className="text-white text-[15px] opacity-90 w-fit  hover:text-orange-300 flex gap-2">
+              <FiPhone size={20} color="white" />
+
+              <span
+                className="text-white text-[15px] opacity-90 mb-4 w-fit hover:text-orange-300 hover:underline cursor-pointer"
+                onClick={() => (window.location.href = "tel:+9641234567890")}
+              >
+                +964 123 456 7890
+              </span>
+            </div>
+
+            <div className="flex gap-2">
+              <FiMail size={20} color="white" />
+              <span
+                className="text-white text-[15px] opacity-90 mb-4 w-fit hover:text-orange-300  hover:underline cursor-pointer"
+                onClick={() =>
+                  (window.location.href = "mailto:economic.team@kissr.edu.iq")
+                }
+              >
+                economic.team@kissr.edu.iq
+              </span>
+            </div>
           </div>
         </div>
       </div>

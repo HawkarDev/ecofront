@@ -1,47 +1,51 @@
-// import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-
-// export const api = createApi({
-//   reducerPath: 'api',
-//   baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:5000' }), // Backend URL
-//   endpoints: (builder) => ({
-//     uploadFile: builder.mutation({
-//       query: (file: File) => {
-//         const formData = new FormData();
-//         formData.append('file', file);
-//         return {
-//           url: '/upload',
-//           method: 'POST',
-//           body: formData,
-//         };
-//       },
-//     }),
-//     getFiles: builder.query<Array<{ id: string; url: string; type: string }>, void>({
-//       query: () => '/files',
-//     }),
-//   }),
-// });
-
-// export const { useUploadFileMutation, useGetFilesQuery } = api;
-
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+// services/api.ts
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const api = createApi({
-  reducerPath: 'api',
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:5000' }), // Backend URL
+  reducerPath: "api",
+  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5000" }), // Backend URL
   endpoints: (builder) => ({
+    login: builder.mutation<{ token: string }, { username: string; password: string }>({
+      query: (credentials) => ({
+        url: "/login",
+        method: "POST",
+        body: credentials,
+      }),
+    }),
+    logout: builder.mutation<void, void>({
+      query: () => ({
+        url: "/logout",
+        method: "POST",
+      }),
+    }),
     uploadFile: builder.mutation({
       query: (formData: FormData) => ({
-        url: '/upload',
-        method: 'POST',
+        url: "/upload",
+        method: "POST",
         body: formData,
       }),
     }),
-    getFiles: builder.query<Array<{
-      metadata: any; id: string; url: string; type: string 
-}>, void>({
-      query: () => '/files',
+    getFiles: builder.query<
+      Array<{
+        id: string;
+        url: string;
+        type: string;
+        metadata: {
+          name: string;
+          category: string;
+          owner: string;
+          date: string;
+          tags: string[];
+        };
+      }>,
+      void
+    >({
+      query: () => "/files",
     }),
   }),
 });
 
-export const { useUploadFileMutation, useGetFilesQuery } = api;
+export const {  useLoginMutation,
+  useLogoutMutation,
+  useUploadFileMutation,
+  useGetFilesQuery } = api;

@@ -38,7 +38,7 @@ const Hero = ({ data }: Props) => {
       {/* Slider Content */}
       <div className="w-4/5 mx-auto grid items-center grid-cols-1 lg:grid-cols-2 gap-12 py-2 transition-all duration-500">
         <div>
-          <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-4xl text-sky-700 font-bold uppercase">
+          <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-4xl text-sky-700 font-bold">
             {currentItem.title}
           </h1>
           <p className="text-lg text-gray-700 mt-4">{currentItem.desc}</p>

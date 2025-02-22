@@ -27,8 +27,10 @@ export default function RootLayoutClient({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <NavBar />
-        <Provider store={store}>{children}</Provider>
+        <Provider store={store}>
+          <NavBar />
+          {children}
+        </Provider>
         <Footer />
       </body>
     </html>

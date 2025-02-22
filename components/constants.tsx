@@ -6,7 +6,7 @@ export const data: Data[] = [
 
     title: "The Fragile Balance",
     desc: "Economic crises are not just failures of systems but reflections of the fragile balance between human ambition and resource limitations.",
-    src: "/images/balance.jpg",
+    src: "/images/Rb.jpg",
   },
   {
     id: 2,
@@ -20,13 +20,13 @@ export const data: Data[] = [
 
     title: "The Collision of Forces",
     desc: "The global economy, like the land it shapes, is subject to the forces of nature and greed, and when those forces collide, both the rich and the poor are left to bear the consequences.",
-    src: "/images/3.png",
+    src: "/images/R3.jpg",
   },
   {
     id: 4,
 
     title: "Crises as Mirrors",
     desc: "Crises are the mirrors of society’s neglect, revealing the deep inequalities and unsustainable structures that bind us, from Kurdistan to the farthest reaches of the world.",
-    src: "/images/4.jpg",
+    src: "/images/R.jpg",
   },
 ];

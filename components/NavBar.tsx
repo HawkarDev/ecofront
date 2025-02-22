@@ -1,10 +1,30 @@
 "use client";
 
+import { useLogoutMutation } from "@/services/api";
+import { RootState } from "../store/store";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutSuccess } from "@/store/authSlice";
 
 const NavBar = () => {
+  const dispatch = useDispatch();
+  const isAdminLoggedIn = useSelector(
+    (state: RootState) => state.auth.isAdminLoggedIn
+  );
+  const [logout] = useLogoutMutation();
+
+  const handleLogout = async () => {
+    try {
+      await logout().unwrap(); // Call the logout endpoint
+      localStorage.removeItem("adminToken"); // Clear the token
+      dispatch(logoutSuccess()); // Update the state
+      alert("Logged out successfully!");
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  };
   return (
     <div className="h-[12vh] sticky top-0 shadow-md bg-indigo-900">
       <div className="flex flex-row gap-4 items-center justify-between w-auto md:w-4/5 mx-auto h-auto">
@@ -31,7 +51,51 @@ const NavBar = () => {
             File List
           </Link>
         </div>
-        <div className="text-cyan-50">Login</div>
+        <div>
+          {isAdminLoggedIn ? (
+            <button
+              onClick={handleLogout}
+              className="flex items-center space-x-2 hover:text-gray-200"
+            >
+              <span>Logout</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                />
+              </svg>
+            </button>
+          ) : (
+            <Link
+              href="/login"
+              className="flex items-center space-x-2 hover:text-gray-200"
+            >
+              <span>Login</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
+                />
+              </svg>
+            </Link>
+          )}
+        </div>
       </div>
     </div>
   );
