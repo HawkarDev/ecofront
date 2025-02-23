@@ -42,9 +42,6 @@ const FileUpload: React.FC = () => {
         body: formData,
       });
 
-      console.log("Response status:", response.status); // Log the status
-      console.log("Response headers:", response.headers); // Log the headers
-
       if (!response.ok) {
         const errorData = await response.json(); // Parse the error response
         console.error("Error response:", errorData); // Log the error response
@@ -78,7 +75,7 @@ const FileUpload: React.FC = () => {
           You do not have permission to upload files.
         </p>
         <p className="text-blue-500 hover:underline">
-          <a href="/admin-login">Login as Admin</a>
+          <a href="/login">Login as Admin</a>
         </p>
       </div>
     );

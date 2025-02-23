@@ -3,9 +3,13 @@ import React, { useState } from "react";
 import { useLoginMutation } from "../services/api"; // Adjust the path as needed
 import { useDispatch } from "react-redux";
 import { loginSuccess } from "../store/authSlice";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
-const AdminLogin: React.FC = () => {
+interface AdminLoginProps {
+  router: any; // Pass the router object as a prop
+}
+
+const AdminLogin: React.FC<AdminLoginProps> = ({ router }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");

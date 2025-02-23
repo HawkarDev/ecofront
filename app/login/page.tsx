@@ -1,10 +1,13 @@
+"use client";
+
 import AdminLogin from "@/components/AdminLogin";
 import React from "react";
-
+import { useRouter } from "next/navigation";
 const adminLogin = () => {
+  const router = useRouter();
   return (
     <div>
-      <AdminLogin />
+      <AdminLogin router={router} />
     </div>
   );
 };
