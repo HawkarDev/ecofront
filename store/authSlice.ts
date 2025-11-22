@@ -1,22 +1,35 @@
-// authSlice.ts
 import { createSlice } from "@reduxjs/toolkit";
+
+// ✅ FIXED: Safe helper function to get initial token
+const getInitialToken = (): string | null => {
+  if (typeof window !== "undefined") {
+    return localStorage.getItem("token");
+  }
+  return null;
+};
 
 const authSlice = createSlice({
   name: "auth",
   initialState: {
-    token: localStorage.getItem("token") || null, // Store the token
-    isAdminLoggedIn: !!localStorage.getItem("token"), // Check if token exists
+    token: getInitialToken(), // ✅ FIXED: Use safe function
+    isAdminLoggedIn: !!getInitialToken(), // ✅ FIXED: Use safe function
   },
   reducers: {
     loginSuccess: (state, action) => {
-      state.token = action.payload.token; // Save the token in Redux state
+      state.token = action.payload.token;
       state.isAdminLoggedIn = true;
-      localStorage.setItem("token", action.payload.token); // Persist token in localStorage
+      // ✅ FIXED: Only set localStorage on client side
+      if (typeof window !== "undefined") {
+        localStorage.setItem("token", action.payload.token);
+      }
     },
     logoutSuccess: (state) => {
       state.token = null;
       state.isAdminLoggedIn = false;
-      localStorage.removeItem("token"); // Remove token from localStorage
+      // ✅ FIXED: Only remove localStorage on client side
+      if (typeof window !== "undefined") {
+        localStorage.removeItem("token");
+      }
     },
   },
 });

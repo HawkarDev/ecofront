@@ -6,7 +6,7 @@ import {
   useUpdateFileMutation,
 } from "../services/api";
 import { useSelector } from "react-redux";
-import { RootState } from "../store";
+import { RootState } from "@/store/store";
 
 // Define a type for the error structure returned by RTK Query
 interface ApiError {

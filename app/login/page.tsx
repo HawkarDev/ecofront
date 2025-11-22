@@ -2,14 +2,13 @@
 
 import AdminLogin from "@/components/AdminLogin";
 import React from "react";
-import { useRouter } from "next/navigation";
-const adminLogin = () => {
-  const router = useRouter();
+
+const AdminLoginPage = () => {
   return (
     <div>
-      <AdminLogin router={router} />
+      <AdminLogin />
     </div>
   );
 };
 
-export default adminLogin;
+export default AdminLoginPage;

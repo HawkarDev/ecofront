@@ -82,10 +82,10 @@
 //   useUpdateFileMutation,
 // } = api;
 
-
 // services/api.ts
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { RootState } from "@/store/store";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+
 const baseQuery = fetchBaseQuery({
   baseUrl: "http://localhost:5000", // Backend URL
   prepareHeaders: (headers, { getState }) => {
@@ -101,7 +101,10 @@ export const api = createApi({
   reducerPath: "api",
   baseQuery,
   endpoints: (builder) => ({
-    login: builder.mutation<{ token: string }, { username: string; password: string }>({
+    login: builder.mutation<
+      { token: string },
+      { username: string; password: string }
+    >({
       query: (credentials) => ({
         url: "/login",
         method: "POST",
@@ -127,7 +130,7 @@ export const api = createApi({
         method: "DELETE",
       }),
     }),
-    updateFile: builder.mutation<void, { fileId: string; metadata: any }>({
+    updateFile: builder.mutation<void, { fileId: string; metadata: unknown }>({
       query: ({ fileId, metadata }) => ({
         url: `/files/${fileId}`,
         method: "PUT",

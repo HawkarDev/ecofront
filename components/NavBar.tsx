@@ -1,10 +1,9 @@
 "use client";
-
 import { useLogoutMutation } from "@/services/api";
 import { RootState } from "../store/store";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useState, useEffect } from "react"; // ✅ Add useEffect
 import { useDispatch, useSelector } from "react-redux";
 import { logoutSuccess } from "@/store/authSlice";
 
@@ -13,41 +12,60 @@ const NavBar = () => {
   const isAdminLoggedIn = useSelector(
     (state: RootState) => state.auth.isAdminLoggedIn
   );
+  const [isClient, setIsClient] = useState(false); // ✅ Add client check
   const [logout] = useLogoutMutation();
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const handleLogout = async () => {
     try {
-      await logout().unwrap(); // Call the logout endpoint
-      localStorage.removeItem("adminToken"); // Clear the token
-      dispatch(logoutSuccess()); // Update the state
+      await logout().unwrap();
+      if (typeof window !== "undefined") {
+        localStorage.removeItem("token"); // ✅ Use "token"
+      }
+      dispatch(logoutSuccess());
       alert("Logged out successfully!");
     } catch (error) {
       console.error("Logout failed:", error);
     }
   };
+
+  // ✅ Don't render auth section until client-side
+  if (!isClient) {
+    return (
+      <div className="h-[12vh] sticky top-0 shadow-md bg-indigo-900">
+        <div className="flex flex-row gap-4 items-center justify-between w-auto md:w-4/5 mx-auto h-auto">
+          {/* Loading state for navbar */}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="h-[12vh] sticky top-0 shadow-md bg-indigo-900">
       <div className="flex flex-row gap-4 items-center justify-between w-auto md:w-4/5 mx-auto h-auto">
         <Link href="/">
           <Image src="/images/logo.png" alt="log" width={100} height={100} />
         </Link>
-        <div className="flex flex-row  items-center gap-6 justify-start w-auto md:w-4/5 mx-auto h-auto text-cyan-50">
-          <Link href="/home" className=" hover:text-orange-300">
+        <div className="flex flex-row items-center gap-6 justify-start w-auto md:w-4/5 mx-auto h-auto text-cyan-50">
+          <Link href="/home" className="hover:text-orange-300">
             Home
           </Link>
-          <Link href="/videos" className=" hover:text-orange-300">
+          <Link href="/videos" className="hover:text-orange-300">
             Videos
           </Link>
-          <Link href="/voices" className=" hover:text-orange-300">
+          <Link href="/voices" className="hover:text-orange-300">
             Voices
           </Link>
-          <Link href="/texts" className=" hover:text-orange-300">
+          <Link href="/texts" className="hover:text-orange-300">
             Texts
           </Link>
-          <Link href="/uploadfiles" className=" hover:text-orange-300">
+          <Link href="/uploadfiles" className="hover:text-orange-300">
             Upload Files
           </Link>
-          <Link href="/fileList" className=" hover:text-orange-300">
+          <Link href="/fileList" className="hover:text-orange-300">
             File List
           </Link>
         </div>

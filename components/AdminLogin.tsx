@@ -1,123 +1,52 @@
-// "use client";
-// import React, { useState } from "react";
-// import { useLoginMutation } from "../services/api"; // Adjust the path as needed
-// import { useDispatch } from "react-redux";
-// import { loginSuccess } from "../store/authSlice";
-// import { useRouter } from "next/navigation";
-
-// interface AdminLoginProps {
-//   router: any; // Pass the router object as a prop
-// }
-
-// const AdminLogin: React.FC<AdminLoginProps> = ({ router }) => {
-//   const [username, setUsername] = useState("");
-//   const [password, setPassword] = useState("");
-//   const [error, setError] = useState("");
-
-//   const dispatch = useDispatch();
-//   const route = useRouter();
-//   // RTK Query login mutation
-//   const [login, { isLoading }] = useLoginMutation();
-
-//   const handleLogin = async () => {
-//     try {
-//       const response = await login({ username, password }).unwrap(); // Use the mutation
-
-//       // Save the token to localStorage
-//       localStorage.setItem("adminToken", response.token);
-//       // Update the login state
-//       dispatch(loginSuccess());
-//       alert("Login successful!");
-//       route.push("/");
-//     } catch (err) {
-//       // Handle errors
-//       if (
-//         typeof err === "object" &&
-//         err !== null &&
-//         "data" in err &&
-//         typeof err.data === "object" &&
-//         err.data !== null &&
-//         "message" in err.data
-//       ) {
-//         setError(err.data.message as string); // Backend error message
-//       } else {
-//         setError("An error occurred. Please try again.");
-//       }
-//     }
-//   };
-
-//   return (
-//     <div className="flex flex-col items-center justify-center pt-40">
-//       <h2 className="text-2xl font-bold mb-4">Admin Login</h2>
-//       <input
-//         type="text"
-//         placeholder="Username"
-//         value={username}
-//         onChange={(e) => setUsername(e.target.value)}
-//         className="mb-2 p-2 border rounded"
-//       />
-//       <input
-//         type="password"
-//         placeholder="Password"
-//         value={password}
-//         onChange={(e) => setPassword(e.target.value)}
-//         className="mb-2 p-2 border rounded"
-//       />
-//       <button
-//         onClick={handleLogin}
-//         disabled={isLoading}
-//         className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600 disabled:bg-gray-400"
-//       >
-//         {isLoading ? "Logging in..." : "Login"}
-//       </button>
-//       {error && <p className="text-red-500 mt-2">{error}</p>}
-//     </div>
-//   );
-// };
-
-// export default AdminLogin;
-
 "use client";
+
 import React, { useState } from "react";
-import { useLoginMutation } from "../services/api"; // Adjust the path as needed
+import { useLoginMutation } from "../services/api";
 import { useDispatch } from "react-redux";
 import { loginSuccess } from "../store/authSlice";
 import { useRouter } from "next/navigation";
 
-interface AdminLoginProps {
-  router: any; // Pass the router object as a prop
+// Define proper types for the login response
+interface LoginResponse {
+  token: string;
 }
 
-const AdminLogin: React.FC<AdminLoginProps> = ({ router }) => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+interface LoginError {
+  data?: {
+    message?: string;
+  };
+}
+
+const AdminLogin: React.FC = () => {
+  const [username, setUsername] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [error, setError] = useState<string>("");
 
   const dispatch = useDispatch();
-  const route = useRouter();
-  // RTK Query login mutation
+  const router = useRouter();
+
   const [login, { isLoading }] = useLoginMutation();
 
-  const handleLogin = async () => {
+  const handleLogin = async (): Promise<void> => {
     try {
-      const response = await login({ username, password }).unwrap(); // Use the mutation
+      const response = (await login({
+        username,
+        password,
+      }).unwrap()) as LoginResponse;
 
-      // Save the token to localStorage and Redux state
-      localStorage.setItem("token", response.token); // Use "token" instead of "adminToken"
-      dispatch(loginSuccess({ token: response.token })); // Update Redux state
+      // ✅ Fixed: Check if we're on client side before using localStorage
+      if (typeof window !== "undefined") {
+        localStorage.setItem("token", response.token);
+      }
+      console.log("Login successful, token:", response.token);
+
+      dispatch(loginSuccess({ token: response.token }));
       alert("Login successful!");
-      route.push("/");
-    } catch (err) {
-      // Handle errors
-      if (
-        typeof err === "object" &&
-        err !== null &&
-        "data" in err &&
-        typeof err.data === "object" &&
-        err.data !== null &&
-        "message" in err.data
-      ) {
-        setError(err.data.message as string); // Backend error message
+      router.push("/uploadfiles");
+    } catch (err: unknown) {
+      const typedError = err as LoginError;
+      if (typedError?.data?.message) {
+        setError(typedError.data.message as string);
       } else {
         setError("An error occurred. Please try again.");
       }
@@ -131,14 +60,18 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ router }) => {
         type="text"
         placeholder="Username"
         value={username}
-        onChange={(e) => setUsername(e.target.value)}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+          setUsername(e.target.value)
+        }
         className="mb-2 p-2 border rounded"
       />
       <input
         type="password"
         placeholder="Password"
         value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+          setPassword(e.target.value)
+        }
         className="mb-2 p-2 border rounded"
       />
       <button

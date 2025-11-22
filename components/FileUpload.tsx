@@ -1,14 +1,20 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 
 const FileUpload: React.FC = () => {
   const [file, setFile] = useState<File | null>(null);
   const [name, setName] = useState<string>("");
   const [category, setCategory] = useState<string>("");
   const [message, setMessage] = useState<string | null>(null);
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
+  const [isClient, setIsClient] = useState<boolean>(false); // ✅ Track client-side
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const isAdmin = !!localStorage.getItem("adminToken");
+  useEffect(() => {
+    setIsClient(true); // ✅ Now we're on client side
+    const token = localStorage.getItem("token");
+    setIsAdmin(!!token);
+  }, []);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -33,7 +39,8 @@ const FileUpload: React.FC = () => {
     formData.append("category", category);
 
     try {
-      const token = localStorage.getItem("adminToken");
+      const token = localStorage.getItem("token");
+
       const response = await fetch("http://localhost:5000/upload", {
         method: "POST",
         headers: {
@@ -43,13 +50,13 @@ const FileUpload: React.FC = () => {
       });
 
       if (!response.ok) {
-        const errorData = await response.json(); // Parse the error response
-        console.error("Error response:", errorData); // Log the error response
+        const errorData = await response.json();
+        console.error("Error response:", errorData);
         throw new Error(errorData.message || "Failed to upload file");
       }
 
       const data = await response.json();
-      console.log("Upload response:", data); // Log the success response
+      console.log("Upload response:", data);
 
       setMessage("File uploaded successfully!");
       setFile(null);
@@ -59,7 +66,7 @@ const FileUpload: React.FC = () => {
         fileInputRef.current.value = "";
       }
     } catch (error) {
-      console.error("Error uploading file:", error); // Log the error
+      console.error("Error uploading file:", error);
       if (error instanceof Error) {
         setMessage(error.message || "Failed to upload file. Please try again.");
       } else {
@@ -67,6 +74,15 @@ const FileUpload: React.FC = () => {
       }
     }
   };
+
+  // ✅ Don't render until we're sure we're on client side
+  if (!isClient) {
+    return (
+      <div className="flex flex-col items-center justify-center h-[calc(100vh-12vh-10vh)] p-8">
+        <div>Loading...</div>
+      </div>
+    );
+  }
 
   if (!isAdmin) {
     return (
