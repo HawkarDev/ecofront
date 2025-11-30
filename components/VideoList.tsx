@@ -27,11 +27,10 @@ const VideoList: React.FC = () => {
                 className="bg-white p-4 rounded shadow text-center"
               >
                 <p>
-                  <strong>Name:</strong> {file.metadata?.name || "No name"}
+                  <strong>Name:</strong> {file?.name || "No name"}
                 </p>
                 <p>
                   <strong>Category:</strong>{" "}
-                  {file.metadata?.category || "No category"}
                 </p>
                 <a
                   href={file.url}
