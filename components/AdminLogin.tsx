@@ -48,7 +48,7 @@ const AdminLogin: React.FC = () => {
       if (typedError?.data?.message) {
         setError(typedError.data.message as string);
       } else {
-        setError("An error occurred. Please try again.");
+        setError("An error occurred. Please try againwww.");
       }
     }
   };

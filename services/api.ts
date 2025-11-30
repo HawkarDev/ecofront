@@ -1,97 +1,12 @@
-// // services/api.ts
-// import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-
-// const baseQuery = fetchBaseQuery({
-//   baseUrl: "http://localhost:5000", // Backend URL
-//   prepareHeaders: (headers, { getState }) => {
-//     // Get the token from the state (assuming you store it in the `auth` slice)
-//     const token = (getState() as RootState).auth.token;
-
-//     // If the token exists, add it to the headers
-//     if (token) {
-//       headers.set("Authorization", `Bearer ${token}`);
-//     }
-
-//     return headers;
-//   },
-// });
-
-// export const api = createApi({
-//   reducerPath: "api",
-//   baseQuery,
-//   endpoints: (builder) => ({
-//     login: builder.mutation<{ token: string }, { username: string; password: string }>({
-//       query: (credentials) => ({
-//         url: "/login",
-//         method: "POST",
-//         body: credentials,
-//       }),
-//     }),
-//     logout: builder.mutation<void, void>({
-//       query: () => ({
-//         url: "/logout",
-//         method: "POST",
-//       }),
-//     }),
-//     uploadFile: builder.mutation({
-//       query: (formData: FormData) => ({
-//         url: "/upload",
-//         method: "POST",
-//         body: formData,
-//       }),
-//     }),
-//     deleteFile: builder.mutation<void, string>({
-//       query: (fileId) => ({
-//         url: `/files/${fileId}`,
-//         method: "DELETE",
-//       }),
-//     }),
-//     updateFile: builder.mutation<void, { fileId: string; metadata: any }>({
-//       query: ({ fileId, metadata }) => ({
-//         url: `/files/${fileId}`,
-//         method: "PUT",
-//         body: metadata,
-//       }),
-//     }),
-//     getFiles: builder.query<
-//       Array<{
-//         id: string;
-//         url: string;
-//         type: string;
-//         metadata: {
-//           name: string;
-//           category: string;
-//           owner: string;
-//           date: string;
-//           tags: string[];
-//         };
-//       }>,
-//       void
-//     >({
-//       query: () => "/files",
-//     }),
-//   }),
-// });
-
-// export const {
-//   useLoginMutation,
-//   useLogoutMutation,
-//   useUploadFileMutation,
-//   useGetFilesQuery,
-//   useDeleteFileMutation,
-//   useUpdateFileMutation,
-// } = api;
-
-// services/api.ts
 import { RootState } from "@/store/store";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: "http://localhost:5000", // Backend URL
+  baseUrl: "https://economic-backend-14p5dcsng-hawkardevs-projects.vercel.app", // Use your actual backend URL
   prepareHeaders: (headers, { getState }) => {
-    const token = (getState() as RootState).auth.token; // Get the token from Redux state
+    const token = (getState() as RootState).auth.token;
     if (token) {
-      headers.set("Authorization", `Bearer ${token}`); // Include the token in headers
+      headers.set("Authorization", `Bearer ${token}`);
     }
     return headers;
   },
@@ -100,66 +15,79 @@ const baseQuery = fetchBaseQuery({
 export const api = createApi({
   reducerPath: "api",
   baseQuery,
+  tagTypes: ["Files"],
   endpoints: (builder) => ({
+    // ✅ FIXED: Use /api/admin/login instead of /login
     login: builder.mutation<
-      { token: string },
+      { token: string; message: string; user: { username: string } },
       { username: string; password: string }
     >({
       query: (credentials) => ({
-        url: "/login",
+        url: "/api/admin/login", // ← FIXED PATH
         method: "POST",
         body: credentials,
       }),
     }),
+
+    // ✅ FIXED: Use /api/admin/profile for logout or remove if not needed
     logout: builder.mutation<void, void>({
       query: () => ({
-        url: "/logout",
+        url: "/api/admin/logout", // You might not have this endpoint
         method: "POST",
       }),
     }),
-    uploadFile: builder.mutation({
-      query: (formData: FormData) => ({
-        url: "/upload",
+
+    // ✅ FIXED: Use /api/upload instead of /upload
+    uploadFile: builder.mutation<{ message: string; file: unknown }, FormData>({
+      query: (formData) => ({
+        url: "/api/upload", // ← FIXED PATH
         method: "POST",
         body: formData,
       }),
+      invalidatesTags: ["Files"],
     }),
-    deleteFile: builder.mutation<void, string>({
+
+    // ✅ FIXED: Use /api/files/:id instead of /files/:id
+    deleteFile: builder.mutation<{ message: string }, string>({
       query: (fileId) => ({
-        url: `/files/${fileId}`,
+        url: `/api/files/${fileId}`, // ← FIXED PATH
         method: "DELETE",
       }),
+      invalidatesTags: ["Files"],
     }),
+
+    // ❌ Remove or update - your backend might not have update endpoint
     updateFile: builder.mutation<void, { fileId: string; metadata: unknown }>({
       query: ({ fileId, metadata }) => ({
-        url: `/files/${fileId}`,
+        url: `/api/files/${fileId}`, // ← FIXED PATH
         method: "PUT",
         body: metadata,
       }),
+      invalidatesTags: ["Files"],
     }),
+
+    // ✅ FIXED: Use /api/files instead of /files
     getFiles: builder.query<
       Array<{
         id: string;
+        name: string;
         url: string;
         type: string;
-        metadata: {
-          name: string;
-          category: string;
-          owner: string;
-          date: string;
-          tags: string[];
-        };
+        viewUrl: string;
+        createdTime: string;
+        size: string;
       }>,
       void
     >({
-      query: () => "/files",
+      query: () => "/api/files", // ← FIXED PATH
+      providesTags: ["Files"],
     }),
   }),
 });
 
 export const {
   useLoginMutation,
-  useLogoutMutation, // Ensure this is exported
+  useLogoutMutation,
   useUploadFileMutation,
   useGetFilesQuery,
   useDeleteFileMutation,
