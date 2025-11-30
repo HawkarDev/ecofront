@@ -169,11 +169,10 @@ const Texts: React.FC = () => {
                   // View mode
                   <div>
                     <p>
-                      <strong>Name:</strong> {file.metadata?.name || "No name"}
+                      <strong>Name:</strong> {file.name || "No name"}
                     </p>
                     <p>
-                      <strong>Category:</strong>{" "}
-                      {file.metadata?.category || "No category"}
+                      <strong>Category:</strong> {"General"}
                     </p>
                     <a
                       href={file.url}
@@ -189,8 +188,8 @@ const Texts: React.FC = () => {
                           onClick={() => {
                             setEditingFileId(file.id);
                             setUpdatedMetadata({
-                              name: file.metadata?.name || "",
-                              category: file.metadata?.category || "",
+                              name: file.name || "",
+                              category: "General", // Default category since backend doesn't provide it
                             });
                           }}
                           className="bg-yellow-500 text-white p-2 rounded mr-2"
