@@ -43,3 +43,4 @@ backend/uploads/
 *.mp4
 *.mov
 *.avi
+.vercel
