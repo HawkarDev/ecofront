@@ -2,7 +2,7 @@ import { RootState } from "@/store/store";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: "economic-backend-new.vercel.app/", // Use your actual backend URL
+  baseUrl: "https://economic-backend-new.vercel.app", // Use your actual backend URL
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth.token;
     if (token) {
