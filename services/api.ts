@@ -30,12 +30,12 @@ export const api = createApi({
     }),
 
     // ✅ FIXED: Use /api/admin/profile for logout or remove if not needed
-    logout: builder.mutation<void, void>({
-      query: () => ({
-        url: "/api/admin/logout", // You might not have this endpoint
-        method: "POST",
-      }),
-    }),
+    // logout: builder.mutation<void, void>({
+    //   query: () => ({
+    //     url: "/api/admin/logout", // You might not have this endpoint
+    //     method: "POST",
+    //   }),
+    // }),
 
     // ✅ FIXED: Use /api/upload instead of /upload
     uploadFile: builder.mutation<{ message: string; file: unknown }, FormData>({
@@ -87,7 +87,7 @@ export const api = createApi({
 
 export const {
   useLoginMutation,
-  useLogoutMutation,
+
   useUploadFileMutation,
   useGetFilesQuery,
   useDeleteFileMutation,

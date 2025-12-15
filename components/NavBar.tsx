@@ -1,11 +1,12 @@
 "use client";
-import { useLogoutMutation } from "@/services/api";
+
 import { RootState } from "../store/store";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState, useEffect } from "react"; // ✅ Add useEffect
 import { useDispatch, useSelector } from "react-redux";
 import { logoutSuccess } from "@/store/authSlice";
+// import { useLogoutMutation } from "@/services/api";
 
 const NavBar = () => {
   const dispatch = useDispatch();
@@ -13,23 +14,33 @@ const NavBar = () => {
     (state: RootState) => state.auth.isAdminLoggedIn
   );
   const [isClient, setIsClient] = useState(false); // ✅ Add client check
-  const [logout] = useLogoutMutation();
+  // const [logout] = useLogoutMutation();
 
   useEffect(() => {
     setIsClient(true);
   }, []);
 
   const handleLogout = async () => {
-    try {
-      await logout().unwrap();
-      if (typeof window !== "undefined") {
-        localStorage.removeItem("token"); // ✅ Use "token"
-      }
-      dispatch(logoutSuccess());
-      alert("Logged out successfully!");
-    } catch (error) {
-      console.error("Logout failed:", error);
+    // try {
+    //   await logout().unwrap();
+    //   if (typeof window !== "undefined") {
+    //     localStorage.removeItem("token"); // ✅ Use "token"
+    //   }
+    //   dispatch(logoutSuccess());
+    //   alert("Logged out successfully!");
+    // } catch (error) {
+    //   console.error("Logout failed:", error);
+    // }
+
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("token");
     }
+
+    // Clear Redux auth state
+    dispatch(logoutSuccess());
+
+    // Optional: Show success message
+    alert("Logged out successfully!");
   };
 
   // ✅ Don't render auth section until client-side
