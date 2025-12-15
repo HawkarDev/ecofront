@@ -42,7 +42,7 @@ const FileUpload: React.FC = () => {
       const token = localStorage.getItem("token");
 
       const response = await fetch(
-        "https://economic-backend-2jfhkqozq-hawkardevs-projects.vercel.app/api/upload",
+        "https://economic-backend-jdwmnzfmi-hawkardevs-projects.vercel.app/api/upload",
         {
           method: "POST",
           headers: {
