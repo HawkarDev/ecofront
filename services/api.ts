@@ -2,6 +2,9 @@ import { RootState } from "@/store/store";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const baseQuery = fetchBaseQuery({
+  // For local testing:
+  //baseUrl: "http://localhost:3000", // Your local backend
+
   baseUrl: "https://economic-backend-jdwmnzfmi-hawkardevs-projects.vercel.app", // Use your actual backend URL dg
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth.token;
