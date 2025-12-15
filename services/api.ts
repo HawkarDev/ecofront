@@ -5,7 +5,7 @@ const baseQuery = fetchBaseQuery({
   // For local testing:
   //baseUrl: "http://localhost:3000", // Your local backend
 
-  baseUrl: "https://economic-backend-jdwmnzfmi-hawkardevs-projects.vercel.app", // Use your actual backend URL dg
+  baseUrl: "https://economic-backend-new.vercel.app", // Use your actual backend URL dg
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth.token;
     if (token) {
