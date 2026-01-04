@@ -4,7 +4,7 @@ export const data: Data[] = [
   {
     id: 1,
 
-    title: "The Fragile Balance",
+    title: "Electronic Economic Panels Database Project",
     desc: "Economic crises are not just failures of systems but reflections of the fragile balance between human ambition and resource limitations.",
     src: "/images/Rb.jpg",
   },
